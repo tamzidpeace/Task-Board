@@ -1,8 +1,13 @@
 import { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import useTodoStore from './app/todo_controller';
 import AddTodo from './components/AddTodo';
 
 function App() {
+  const { todo } = useTodoStore();
+
 
   const onTaskDrop = (e, type) => {
     e.preventDefault();
@@ -50,61 +55,75 @@ function App() {
 
   return (
     <>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
 
-      <AddTodo />
+      <div className='bg-white p-[50px]  overflow-x-auto'>
 
-      <div className='flex flex-row space-x-5 p-20 bg-gray-100 h-[100vh] w-full'>
+        <AddTodo />
 
-        <div onDragOver={onTaskDragOver} onDrop={(e) => onTaskDrop(e, 'new')} className='flex-1 flex flex-col space-y-2 bg-gray-200 rounded-md py-5 overflow-y-auto'>
+        <div className='flex flex-row space-x-5   h-[80vh] w-full mt-5'>
 
-          {newT.map((task, index) => (
-            <div
+          <div onDragOver={onTaskDragOver} onDrop={(e) => onTaskDrop(e, 'new')} className='flex-1 flex flex-col space-y-2 bg-gray-200 rounded-md py-5 overflow-y-auto'>
 
-              key={index}
-              className='flex flex-row space-x-2 items-center p-2 bg-white rounded-md shadow-md'
-              draggable
-              onDragStart={(e) => {
-                setDragItem({ task, index, type: 'new' })
-              }}
+            {todo.map((t, index) => (
+              <div
 
-            >
-              <div className='w-4 h-4 bg-gray-400 rounded-full'></div>
-              <div className='text-sm'>{task}</div>
-            </div>
-          ))}
+                key={index}
+                className='flex flex-row space-x-2 items-center p-2 bg-white rounded-md shadow-md'
+                draggable
+                onDragStart={(e) => {
+                  // setDragItem({ t.task, index, type: 'new' })
+                }}
+
+              >
+                <div className='w-4 h-4 bg-gray-400 rounded-full'></div>
+                <div className='text-sm'>{t.task}</div>
+              </div>
+            ))}
 
 
+
+
+          </div>
+
+
+          <div onDragOver={onTaskDragOver} onDrop={(e) => onTaskDrop(e, 'run')} className='flex-1 flex flex-col space-y-2 bg-gray-200 rounded-md py-5 overflow-y-auto'>
+
+            {runT.map((task, index) => (
+              <div
+
+                key={index}
+                className='flex flex-row space-x-2 items-center p-2 bg-white rounded-md shadow-md'
+                draggable
+                onDragStart={(e) => {
+                  setDragItem({ task, index, type: 'run' });
+                }}
+
+              >
+                <div className='w-4 h-4 bg-gray-400 rounded-full'></div>
+                <div className='text-sm'>{task}</div>
+              </div>
+            ))}
+
+          </div>
+
+
+          <div className='flex-1 bg-gray-200 rounded-md'>
+
+          </div>
 
 
         </div>
-
-
-        <div onDragOver={onTaskDragOver} onDrop={(e) => onTaskDrop(e, 'run')} className='flex-1 flex flex-col space-y-2 bg-gray-200 rounded-md py-5 overflow-y-auto'>
-
-          {runT.map((task, index) => (
-            <div
-
-              key={index}
-              className='flex flex-row space-x-2 items-center p-2 bg-white rounded-md shadow-md'
-              draggable
-              onDragStart={(e) => {
-                setDragItem({ task, index, type: 'run' });
-              }}
-
-            >
-              <div className='w-4 h-4 bg-gray-400 rounded-full'></div>
-              <div className='text-sm'>{task}</div>
-            </div>
-          ))}
-
-        </div>
-
-
-        <div className='flex-1 bg-gray-200 rounded-md'>
-
-        </div>
-
-
       </div>
     </>
   );
