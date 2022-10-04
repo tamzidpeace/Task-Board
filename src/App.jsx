@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import AddTodo from './components/AddTodo';
 
 function App() {
 
@@ -49,6 +50,9 @@ function App() {
 
   return (
     <>
+
+      <AddTodo />
+
       <div className='flex flex-row space-x-5 p-20 bg-gray-100 h-[100vh] w-full'>
 
         <div onDragOver={onTaskDragOver} onDrop={(e) => onTaskDrop(e, 'new')} className='flex-1 flex flex-col space-y-2 bg-gray-200 rounded-md py-5 overflow-y-auto'>
