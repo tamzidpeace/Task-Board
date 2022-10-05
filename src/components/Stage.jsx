@@ -1,17 +1,18 @@
 import React from 'react'
-import useTodoStore from '../app/todo_controller';
+import useTodoStore, { changeTaskStatus } from '../app/todo_controller';
 import Task from './Task'
 
 export default function Stage({ title = 'Title', tasks = [], type = 'todo' }) {
   const { drag_item, todo, in_progress, done, setTodo, setInProgress, setDone } = useTodoStore();
 
-  const handleOnDrop = (e) => {
+  const handleOnDrop = async (e) => {
     e.preventDefault();
     console.log('type', type);
     console.log('drag_item', drag_item);
     if (type !== drag_item.status) {
       addItem(type, drag_item);
       removeItem(drag_item);
+      await changeTaskStatus(drag_item.id, type);
     }
   }
 

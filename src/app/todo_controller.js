@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import create from 'zustand'
-import { add_todo_url, get_todo_url } from './const';
+import { add_todo_url, change_todo_status_url, get_todo_url } from './const';
 
 // store
 const useTodoStore = create((set, get) => ({
@@ -38,7 +38,7 @@ export const getAllTodo = async () => {
       console.log('Success:', data);
     })
     .catch((error) => {
-      err('Something went wrong! Unable to add task.');
+      err('Something went wrong! Unable to load task.');
       setIsGetAllTodoLoading(false);
       console.error('Error:', error);
     });
@@ -74,11 +74,30 @@ export const addTodo = async (data) => {
     });
 }
 
+export const changeTaskStatus = async (id, status) => {
+
+  fetch(change_todo_status_url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: id, status: status }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      success('Task Status Updated!');
+      console.log('Success:', data);
+
+    })
+    .catch((error) => {
+      err('Something went wrong! Unable to add task.');
+      console.error('Error:', error);
+    });
+}
+
 // helpers functions
 export const success = (message) => {
   toast.success(message, {
     position: "bottom-right",
-    autoClose: 3000,
+    autoClose: 1500,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -90,7 +109,7 @@ export const success = (message) => {
 export const warn = (message) => {
   toast.warn(message, {
     position: "bottom-right",
-    autoClose: 3000,
+    autoClose: 1500,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -102,7 +121,7 @@ export const warn = (message) => {
 export const err = (message) => {
   toast.error(message, {
     position: "bottom-right",
-    autoClose: 3000,
+    autoClose: 1500,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
