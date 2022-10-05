@@ -26,7 +26,7 @@ function App() {
 
             <div className='flex flex-row space-x-5 min-w-[650px] h-[80vh] w-full mt-5'>
 
-              <Stage title='Todo' tasks={todo} type={'todo'} />
+              <Stage title='To Do' tasks={todo} type={'todo'} />
               <Stage title='In Progress' tasks={in_progress} type={'in_progress'} />
               <Stage title='Done' tasks={done} type={'done'} />
 
