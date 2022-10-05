@@ -16,6 +16,8 @@ const useTodoStore = create((set, get) => ({
   setIsLoading: (data) => set({ is_loading: data }),
   new_todo: '',
   setNewTodo: (data) => set({ new_todo: data }),
+  drag_item: {},
+  setDragItem: (data) => set({ drag_item: data }),
 }));
 
 
@@ -48,7 +50,7 @@ export const addTodo = async (data) => {
     return;
   }
 
-  const { setIsLoading, setNewTodo } = useTodoStore.getState();
+  const { setIsLoading, setNewTodo, setTodo } = useTodoStore.getState();
   setIsLoading(true);
 
   fetch(add_todo_url, {
@@ -61,7 +63,7 @@ export const addTodo = async (data) => {
       success('New Task Added!');
       setIsLoading(false);
       setNewTodo('');
-      setTodoData(data.data);
+      setTodo(data?.data.todo ?? []);
       console.log('Success:', data);
 
     })
